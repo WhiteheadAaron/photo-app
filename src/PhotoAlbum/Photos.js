@@ -7,7 +7,6 @@ function Photos(props) {
 
 
   function generateIndividualAlbum() {
-    console.log(props);
 
     return props.photos.map((photo, key) => {
       return (
@@ -16,7 +15,7 @@ function Photos(props) {
             <p>Photo Id: {photo.id}</p>
             <p>Photo Title: {photo.title}</p>
           </div>
-          <img className='image' src={photo.thumbnailUrl} />
+          <img className='image' src={photo.thumbnailUrl} alt={photo.id} />
           <a className='link' href={photo.url}>View Full Image</a>
         </div>
       )

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './PhotoAlbum.css';
 import Photos from './Photos';
+import Loading from './Loading';
 
 function PhotoAlbum() {
 
-  const [state, setState] = useState({ photos: [], numberOfAlbums: 100, selectedAlbum: null });
+  const [state, setState] = useState({ photos: [], numberOfAlbums: 100, selectedAlbum: null, loading: false });
 
   function generateThumbnails() {
     const n = state.numberOfAlbums;
@@ -24,19 +25,23 @@ function PhotoAlbum() {
     setState({ ...state, selectedAlbum: null });
   }
 
-  async function onAlbumSelect(albumId) {
-    const album = await (await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`)).json();
-    console.log(album);
-    setState({ ...state, photos: album, selectedAlbum: albumId });
+  function onAlbumSelect(albumId) {
+    setState({ ...state, loading: true })
+    fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`).then(res => res.json().then(album => {
+      setState({ ...state, photos: album, selectedAlbum: albumId, loading: false });
+    })).catch(e => {
+      console.log(e);
+      setState({ ...state, selectedAlbum: null, loading: false });
+    })
   }
 
 
   return (
-    <div>
-      
-      {!state.selectedAlbum && generateThumbnails()}
-      {state.selectedAlbum && <Photos photos={state.photos} clear={clearSelectedAlbum} />}
-    </div>
+    <React.Fragment>
+      {state.loading && <Loading />}
+      {!state.selectedAlbum && !state.loading && generateThumbnails()}
+      {state.selectedAlbum && !state.loading && <Photos photos={state.photos} clear={clearSelectedAlbum} />}
+    </React.Fragment>
   );
 }
 
