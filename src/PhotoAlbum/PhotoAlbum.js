@@ -14,7 +14,7 @@ function PhotoAlbum() {
     return array.map((album, key) => {
 
       return (
-        <div className='thumbnail' key={key} onClick={() => onAlbumSelect(key + 1)}>
+        <div className={`thumbnail album-${key}`} key={key} onClick={() => onAlbumSelect(key + 1)}>
           <p>{key + 1}</p>
         </div>
       )
