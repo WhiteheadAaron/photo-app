@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './PhotoAlbum.css';
 import Description from './Description';
 
-function Photos(props) {
+class Photos extends Component {
 
+  generateIndividualAlbum() {
 
-
-  function generateIndividualAlbum() {
-
-    return props.photos.map((photo, key) => {
+    return this.props.photos.map((photo, key) => {
       return (
         <div className='photo' key={key}>
           <div className='photoInfo'>
@@ -22,12 +20,14 @@ function Photos(props) {
     })
   }
 
-  return (
-    <div className='container'>
-      <Description albumId={props.photos[0].albumId} clear={props.clear} />
-      {generateIndividualAlbum()}
-    </div>
-  );
+  render() {
+    return (
+      <div className='container'>
+        <Description albumId={this.props.photos[0].albumId} clear={this.props.clear} />
+        {this.generateIndividualAlbum()}
+      </div>
+    );
+  }
 }
 
 export default Photos;

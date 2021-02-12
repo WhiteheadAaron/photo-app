@@ -1,48 +1,49 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './PhotoAlbum.css';
 import Photos from './Photos';
 import Loading from './Loading';
+import Fetch from './Fetch';
 
-function PhotoAlbum() {
+class PhotoAlbum extends Component {
+  constructor() {
+    super();
+    this.clearSelectedAlbum = this.clearSelectedAlbum.bind(this);
+    this.onAlbumSelect = this.onAlbumSelect.bind(this);
+    this.state = { photos: [], numberOfAlbums: 100, selectedAlbum: null, loading: false };
+  }
 
-  const [state, setState] = useState({ photos: [], numberOfAlbums: 100, selectedAlbum: null, loading: false });
-
-  function generateThumbnails() {
-    const n = state.numberOfAlbums;
+  generateThumbnails() {
+    const n = this.state.numberOfAlbums;
     const array = [...Array(n)];
 
     return array.map((album, key) => {
-
       return (
-        <div className={`thumbnail album-${key}`} key={key} onClick={() => onAlbumSelect(key + 1)}>
+        <div className={`thumbnail album-${key + 1}`} key={key} onClick={() => this.onAlbumSelect(key + 1)}>
           <p>{key + 1}</p>
         </div>
       )
     })
   }
 
-  function clearSelectedAlbum() {
-    setState({ ...state, selectedAlbum: null });
+  clearSelectedAlbum() {
+    this.setState({ selectedAlbum: null });
   }
 
-  function onAlbumSelect(albumId) {
-    setState({ ...state, loading: true })
-    fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`).then(res => res.json().then(album => {
-      setState({ ...state, photos: album, selectedAlbum: albumId, loading: false });
-    })).catch(e => {
-      console.log(e);
-      setState({ ...state, selectedAlbum: null, loading: false });
-    })
+  async onAlbumSelect(albumId) {
+    this.setState({ loading: true, selectedAlbum: albumId })
+    const response = await Fetch(albumId);
+    this.setState({ photos: response, loading: false });
   }
 
-
-  return (
-    <React.Fragment>
-      {state.loading && <Loading />}
-      {!state.selectedAlbum && !state.loading && generateThumbnails()}
-      {state.selectedAlbum && !state.loading && <Photos photos={state.photos} clear={clearSelectedAlbum} />}
-    </React.Fragment>
-  );
+  render() {
+    return (
+      <React.Fragment>
+        {this.state.loading && <Loading />}
+        {!this.state.selectedAlbum && !this.state.loading && this.generateThumbnails()}
+        {this.state.selectedAlbum && !this.state.loading && <Photos photos={this.state.photos} clear={this.clearSelectedAlbum} />}
+      </React.Fragment>
+    );
+  }
 }
 
 export default PhotoAlbum;
