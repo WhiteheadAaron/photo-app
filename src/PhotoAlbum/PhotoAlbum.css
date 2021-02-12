@@ -1,0 +1,52 @@
+.thumbnail {
+  border: solid grey 1px;
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.photo {
+  border: solid grey 1px;
+  width: 250px;
+  height: 400px;
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.desc {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.descH2, .clearButton {
+  display: inline-block;
+  margin: 10px;
+}
+
+.clearButton {
+  background-color: white;
+  cursor: pointer;
+}
+
+.photoInfo {
+  height: 150px;
+}
+
+.link {
+  display: inline-block;
+  color: black;
+}
