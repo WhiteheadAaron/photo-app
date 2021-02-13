@@ -13,6 +13,4 @@ When you first get to the app, you will notice 100 boxes ordered by number that 
 
 ### Testing
 
-I made unit tests for every component and function in the app. If you run 'yarn test' in the console, it will run the tests for you. You can also run 'yarn test --coverage' to see that the tests cover 100% of lines in the application.
-
-
+I made unit tests for every component and function in the app. If you run 'yarn test' in the console, it will run the tests for you. You can also run 'yarn test:coverage' to see that the tests cover 100% of lines in the application.
