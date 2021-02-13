@@ -6,6 +6,7 @@ import App from './App';
 import PhotoAlbum from './PhotoAlbum/PhotoAlbum';
 import Loading from './PhotoAlbum/Loading';
 import Photos from './PhotoAlbum/Photos';
+import Description from './PhotoAlbum/Description';
 
 
 describe('App Tests', () => {
@@ -77,6 +78,31 @@ describe('Loading Tests', () => {
   test('Renders Loading Screen Correctly', () => {
     const wrapper = shallow(<Loading />)
     expect(wrapper.find('p').length).toBe(1);
+  });
+});
+
+describe('Description Tests', () => {
+  test('Renders Description component correctly', () => {
+    const wrapper = shallow(<Description />);
+    expect(wrapper.find('div').length).toBe(1);
+    expect(wrapper.hasClass('desc')).toBe(true);
+    expect(wrapper.find('button').length).toBe(1);
+    expect(wrapper.find('button').hasClass('clearButton')).toBe(true);
+    expect(wrapper.find('h2').length).toBe(1);
+    expect(wrapper.find('h2').hasClass('descH2')).toBe(true);
+  });
+
+  test('Go back to home page button works correctly', () => {
+    const props = {
+      clear: () => {}
+    };
+    const spy = jest.spyOn(props, 'clear');
+
+    const wrapper = shallow(<Description clear={props.clear} />);
+    const button = wrapper.find('button');
+    button.simulate('click');
+
+    expect(spy).toHaveBeenCalled();
   });
 });
 
